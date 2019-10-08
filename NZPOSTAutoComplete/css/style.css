@@ -1,0 +1,54 @@
+.pcfCustomField{    
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    line-height: 2.5rem;
+    width: 100%;
+    height: 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    margin-left: 0px;
+    margin-right:0px;
+    color: rgb(0,0,0);
+    -webkit-appearance: none;    
+}
+
+input:focus::-webkit-input-placeholder {
+    opacity: 0;
+}
+
+input:hover::-webkit-input-placeholder{
+    opacity: 0;
+}
+
+datalist{
+    background: #777;
+}
+
+select{
+    background: #777;
+}
+
+.pcfCustomField::placeholder{
+    color: #777
+}
+
+.pcfCustomField::placeholder:focus{
+    color: rgba(0,0,0, 0)
+}
+
+.pcfCustomField:hover{
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(102,102,102);
+}
+
+.pcfCustomField:focus{
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(102,102,102);
+}
