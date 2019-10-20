@@ -1,4 +1,4 @@
-.pcfCustomField{    
+.NZPostAutoComplete .pcfCustomField{    
     border-color: transparent;
     border-style: solid;
     border-width: 1px;
@@ -19,36 +19,36 @@
     -webkit-appearance: none;    
 }
 
-input:focus::-webkit-input-placeholder {
+.NZPostAutoComplete input:focus::-webkit-input-placeholder {
     opacity: 0;
 }
 
-input:hover::-webkit-input-placeholder{
+.NZPostAutoComplete input:hover::-webkit-input-placeholder{
     opacity: 0;
 }
 
-datalist{
+.NZPostAutoComplete datalist{
     background: #777;
 }
 
-select{
+.NZPostAutoComplete select{
     background: #777;
 }
 
-.pcfCustomField::placeholder{
+.NZPostAutoComplete .pcfCustomField::placeholder{
     color: #777
 }
 
-.pcfCustomField::placeholder:focus{
+.NZPostAutoComplete .pcfCustomField::placeholder:focus{
     color: rgba(0,0,0, 0)
 }
 
-.pcfCustomField:hover{
+.NZPostAutoComplete .pcfCustomField:hover{
     background-color: rgb(255, 255, 255);
     border-color: rgb(102,102,102);
 }
 
-.pcfCustomField:focus{
+.NZPostAutoComplete .pcfCustomField:focus{
     background-color: rgb(255, 255, 255);
     border-color: rgb(102,102,102);
 }
