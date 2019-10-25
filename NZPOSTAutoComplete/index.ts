@@ -46,6 +46,8 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
+		console.log("NZ Post Auto Complete PCF Control Loaded. v2.3.17");
+
 		this.localNotifyOutputChanged = notifyOutputChanged;
 		this.context = context;
 		this.clientId = context.parameters.nzpost_client_id.raw;
@@ -68,10 +70,11 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 		// Get initial values from field.
 		// @ts-ignore
 		this.inputElement.value = this.context.parameters.value.formatted;
-		//this.inputElement.value = Xrm.Page.getAttribute(context.parameters.value.attributes.LogicalName).getValue();
 
 		// Add an eventlistner the element and bind it to a  function.
 		this.inputElement.addEventListener("input", this.getSuggestions.bind(this));
+		this.inputElement.addEventListener("blur", this.getOutputs.bind(this));
+
 						
 		// creating HTML elements for data list 
 		this.datalistElement = document.createElement("datalist");
@@ -91,11 +94,22 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 		container.appendChild(this.container);	
 	}
 
+	/**
+	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+	 */
+	public updateView(context: ComponentFramework.Context<IInputs>): void
+	{
+		((this._street != undefined) ? this.inputElement.value = this._street : null)
+	}
+	
+
 	public getSuggestions(evt: Event) {
 
 		// Connect to an API and get the suggesstion as user key presses and update dropdown.
 		console.log("getSuggestions")
 		let key = "DPID"
+
 		let input = (this.inputElement.value as any) as string;
 		if (input.indexOf(key) == -1)
 		{
@@ -119,7 +133,6 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 				// The whole response has been received. Print out the result.
 				resp.on('end', () => {
 					var response = JSON.parse(data);
-					console.log();
 					console.log(response.addresses);
 					var optionsHTML = "";
 					var optionsHTMLArray = new Array();
@@ -129,8 +142,14 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 						optionsHTMLArray.push(response.addresses[i].FullAddress + ". DPID: " + response.addresses[i].DPID);
 						optionsHTMLArray.push('">  Address Type: ' + response.addresses[i].SourceDesc + '</option>');						
 					}
-					this.datalistElement.innerHTML = optionsHTMLArray.join("");  
-					//this.localNotifyOutputChanged  
+
+					this.datalistElement.innerHTML = optionsHTMLArray.join("");
+
+					if (optionsHTMLArray.length === 0 ){
+						this._street = this.inputElement.value
+						this.localNotifyOutputChanged();
+					} 
+
 				});
 
 			}).on("error", (err: { message: string; }) => {
@@ -138,25 +157,13 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 			});		
 		}
 		else {
-			this.getDetails(this.inputElement.value)
-			
+			this.getDetails(this.inputElement.value)			
 		}		
 	}
 
-	/**
-	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-	 */
-	
 
-	public updateView(context: ComponentFramework.Context<IInputs>): void
-	{
-		((this._street != undefined) ? this.inputElement.value = this._street : null)
-	}
-	
 
 	public getDetails(value: string){
-
 		// set the key to lok for in the input that was placed above.
 		console.log("getDetails");
 		let key = "DPID";
@@ -172,6 +179,7 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 			}
 
 			const https = require('https');
+
 			https.get(options, (resp: any) => {
 				let data = '';				
 				// A chunk of data has been recieved.
@@ -193,7 +201,7 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 						this._latitude = response.details[response.details.length -1].NZGD2kCoord.coordinates[0];
 						this._longitude = response.details[response.details.length -1].NZGD2kCoord.coordinates[1];
 						this._dpid = response.details[response.details.length -1].DPID;
-						this.localNotifyOutputChanged()			
+						this.localNotifyOutputChanged();		
 					}
 				});
 
@@ -203,6 +211,7 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 			}
 			else {
 				console.log("setSelected :: No " + key);
+				return {}
 			}	
 	}
 
@@ -213,7 +222,7 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 	 */
 	public getOutputs(): IOutputs
 	{	
-
+		console.log("getOutput");
 		return {
 			value: this._street,
 			address_street: this._street,
@@ -222,9 +231,6 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 			address_postcode: this._postcode,
 			address_city: this._city,
 			address_country: this._country,
-			address_dpid: this._dpid
-			// address_latitude: this._latitude,
-			// address_longitude: this._longitude
 		};
 	}
 
@@ -235,6 +241,5 @@ export class NZPostAutoComplete implements ComponentFramework.StandardControl<II
 	public destroy(): void
 	{
 		// Add code to cleanup control if necessary
-		//this.inputElement.removeEventListener("input", this._refreshData);
 	}
 }

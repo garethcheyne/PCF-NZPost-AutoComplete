@@ -1,23 +1,20 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="GC" constructor="NZPostAutoComplete" version="2.3.1" display-name-key="NZ Post AutoComplete" description-key="AutoComplete function for NZ Post API. You first will need to obtain an client_id, and client_secret from NZPost, https://anypoint.mulesoft.com/exchange/portals/nz-post-group/b8271f09-2ad8-4e1c-b6b1-322c5727d148/nzpost.addresschecker/. Developed by Gareth Cheyne, https://github.com/garethcheyne" control-type="standard">
+  <control namespace="GC" constructor="NZPostAutoComplete" version="2.3.16" display-name-key="NZ Post AutoComplete" description-key="AutoComplete function for NZ Post API. You first will need to obtain an client_id, and client_secret from NZPost, https://anypoint.mulesoft.com/exchange/portals/nz-post-group/b8271f09-2ad8-4e1c-b6b1-322c5727d148/nzpost.addresschecker/. Developed by Gareth Cheyne, https://github.com/garethcheyne" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-
-        <!-- Property node's of-type attribute can be of-type-group attribute. -->
-    <type-group name="numbers">
+    <!-- Property node's of-type attribute can be of-type-group attribute. -->
+    <!-- <type-group name="numbers">
       <type>Whole.None</type>
       <type>Currency</type>
       <type>FP</type>
       <type>Decimal</type>
     </type-group>
-    
     <type-group name="filetype">
       <type>SingleLine.Text</type>
-    </type-group>
-
+    </type-group> -->
     <property name="value" display-name-key="Auto Complete Field?" description-key="Select the field that you want this auto complete fuction to be bound too, it is suggested you add tthis to xx_line1" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="nzpost_client_id" display-name-key="NZ POST Client Id" description-key="NZ POST Client Id" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="nzpost_client_secret" display-name-key="NZ POST Client Secret" description-key="NZ POST Client Secret" of-type="SingleLine.Text" usage="input" required="true" />  
+    <property name="nzpost_client_secret" display-name-key="NZ POST Client Secret" description-key="NZ POST Client Secret" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="address_street" display-name-key="Street" description-key="Street" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="address_building" display-name-key="building" description-key="Building" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="address_suburb" display-name-key="Suburb" description-key="Suburb" of-type="SingleLine.Text" usage="bound" required="true" />
@@ -27,12 +24,11 @@
     <property name="address_latitude" display-name-key="Latitude" description-key="The NZGD2K Latitude Coordinate" of-type="FP" usage="bound" required="false" />
     <property name="address_longitude" display-name-key="Longitude" description-key="The NZGD2K Longitude Coordinate" of-type="FP" usage="bound" required="false" />
     <property name="address_dpid" display-name-key="NZPost DPID" description-key="NZPost DPID" of-type="SingleLine.Text" usage="bound" required="false" />
-
-
     <resources>
-      <code path="index.ts" order="1"/>
+      <code path="index.ts" order="1" />
       <css path="css/style.css" order="2" />
-      <img path="img/logo.png" /> <!--Icon 170x130px-->
+      <img path="img/logo.png" />
+      <!--Icon 170x130px-->
     </resources>
     <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
     <feature-usage>
